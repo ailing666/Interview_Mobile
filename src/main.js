@@ -6,6 +6,12 @@ import store from './store'
 import Vant from 'vant'
 // 引入样式
 import 'vant/lib/index.css'
+// 导入flexbile
+import 'amfe-flexible'
+// 导入字体图标
+import './styles/iconfont.css'
+// 引入全局less
+import './styles/var.less'
 // 注册Vant
 Vue.use(Vant)
 
