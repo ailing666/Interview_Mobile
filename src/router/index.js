@@ -4,10 +4,17 @@ import Company from '@/views/company/Company.vue'
 import Question from '@/views/question/Question.vue'
 import Find from '@/views/find/Find.vue'
 import My from '@/views/my/My.vue'
+import Login from '@/views/login/Login.vue'
+
 Vue.use(VueRouter)
 
 const router = new VueRouter({
   routes: [
+    {
+      path: '/',
+      redirect: '/login'
+    },
+
     {
       path: '/company',
       component: Company,
@@ -43,6 +50,10 @@ const router = new VueRouter({
         icon: 'iconicon_footbar_wode_sel',
         isShowTabbar: true
       }
+    },
+    {
+      path: '/login',
+      component: Login
     }
   ]
 })
