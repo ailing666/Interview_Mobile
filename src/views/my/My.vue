@@ -47,17 +47,17 @@
         <div class="interview-data-main">
           <ul>
             <li>
-              <p class="t">昨日阅读</p>
+              <p class="t">昨日阅读<span>+555</span></p>
               <div class="m">555</div>
               <span class="b">阅读总数</span>
             </li>
             <li>
-              <p class="t">昨日获赞</p>
+              <p class="t">昨日获赞<span>+555</span></p>
               <div class="m">555</div>
               <span class="b">获赞总数</span>
             </li>
             <li>
-              <p class="t">昨日新增</p>
+              <p class="t">昨日新增<span>+555</span></p>
               <div class="m">555</div>
               <span class="b">评论总数</span>
             </li>
@@ -108,8 +108,7 @@ export default {
 .my {
   background-color: @border-color;
   .my-top {
-    width: 375px;
-    height: 304px;
+    height: 260px;
     background: linear-gradient(45deg, #ce0031, #b8002c);
     color: @white-color;
     img {
@@ -119,6 +118,7 @@ export default {
     .top-user-info {
       display: flex;
       justify-content: space-around;
+      margin: 20px 0;
       .left {
         .username {
           font-size: 21px;
@@ -149,7 +149,6 @@ export default {
           span {
             font-size: 21px;
             font-weight: 700;
-            color: #ffffff;
           }
           p {
             opacity: 0.7;
@@ -160,7 +159,25 @@ export default {
     }
   }
   .my-main {
+    position: relative;
+    padding: 0 15px;
+    .gangwei {
+      position: absolute;
+      width: 345px;
+      top: -55px;
+      .van-cell {
+        border-radius: 10px;
+      }
+    }
     .main-interview-data {
+      padding: 10px 15px 0 15px;
+      margin: 45px 0 10px 0;
+      border-radius: 10px;
+      height: 143px;
+      background-color: @white-color;
+      h5 {
+        margin: 5px 0;
+      }
       .interview-data-main {
         ul {
           display: flex;
@@ -172,6 +189,9 @@ export default {
             .t {
               font-size: 10px;
               color: @minor-font-color;
+              span {
+                color: @assist-color;
+              }
             }
             .m {
               font-size: 21px;
@@ -187,6 +207,9 @@ export default {
       }
     }
     .main-cell-list {
+      height: 322px;
+      border-radius: 10px;
+      overflow: hidden;
     }
   }
 }
