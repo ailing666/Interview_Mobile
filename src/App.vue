@@ -8,6 +8,7 @@
       $route.meta.showTabBar:当路由元中标记showTabBar为true才让tabbar显示
     -->
     <van-tabbar
+      class="tabbar"
       route
       active-color="#e40137"
       inactive-color="#b4b4bd"
@@ -42,5 +43,10 @@ export default {
 <style lang="less">
 .iconfont {
   font-size: 28px;
+}
+.van-tabbar--fixed {
+  position: fixed;
+  bottom: 0;
+  height: 88px;
 }
 </style>
