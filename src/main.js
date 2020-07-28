@@ -12,9 +12,11 @@ import 'amfe-flexible'
 import './styles/iconfont.css'
 // 引入全局less
 import './styles/var.less'
+// 注册全局组件
+import AlNavBar from '@/components/AlNavBar.vue'
 // 注册Vant
 Vue.use(Vant)
-
+Vue.component(AlNavBar.name, AlNavBar)
 Vue.config.productionTip = false
 
 new Vue({
