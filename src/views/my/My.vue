@@ -6,30 +6,31 @@
       <!-- 用户信息 -->
       <div class="user-info">
         <div class="user-name">
-          <p class="nickname">小艾同学</p>
-          <p class="intro">嘤嘤嘤嘤嘤嘤嘤嘤嘤</p>
+          <p class="nickname">{{ userInfo.nickname }}</p>
+          <p class="intro">{{ userInfo.intro }}</p>
         </div>
+
         <div class="user-avatar">
-          <img src="@/assets/avatar.jpg" alt="" />
+          <img :src="USERAVATAR" alt="" />
         </div>
       </div>
       <!-- 用户数据 -->
       <div class="user-data">
         <ul>
           <li>
-            <p class="question-data">555</p>
+            <p class="question-data">{{ userInfo.submitNum }}</p>
             <span class="question-info">累计答题</span>
           </li>
           <li>
-            <p class="question-data">555</p>
+            <p class="question-data">{{ userInfo.collectQuestions.length }}</p>
             <span class="question-info">收藏题目</span>
           </li>
           <li>
-            <p class="question-data">555</p>
+            <p class="question-data">{{ userInfo.errorNum }}</p>
             <span class="question-info">我的错题</span>
           </li>
           <li>
-            <p class="question-data">555</p>
+            <p class="question-data">{{ CORRECTRATE }}%</p>
             <span class="question-info">正确率</span>
           </li>
         </ul>
@@ -40,7 +41,7 @@
       <div class="gangwei">
         <AlCell
           title="我的岗位"
-          value="产品经理"
+          :value="userInfo.position"
           icon="iconicon_mine_gangwei"
         ></AlCell>
       </div>
@@ -50,23 +51,29 @@
         <ul>
           <li>
             <p class="interview-yesterday">
-              昨日阅读<span class="num">+300</span>
+              昨日阅读<span class="num"
+                >+{{ userInfo.shareData.read.yesterday }}</span
+              >
             </p>
-            <p class="interview-num">666</p>
+            <p class="interview-num">{{ userInfo.shareData.read.total }}</p>
             <span class="interview-info">阅读总数</span>
           </li>
           <li>
             <p class="interview-yesterday">
-              昨日阅读<span class="num">+300</span>
+              昨日阅读<span class="num"
+                >+{{ userInfo.shareData.star.yesterday }}</span
+              >
             </p>
-            <p class="interview-num">666</p>
+            <p class="interview-num">{{ userInfo.shareData.star.total }}</p>
             <span class="interview-info">获赞总数</span>
           </li>
           <li>
             <p class="interview-yesterday">
-              昨日阅读<span class="num">+300</span>
+              昨日阅读<span class="num"
+                >+{{ userInfo.shareData.comment.yesterday }}</span
+              >
             </p>
-            <p class="interview-num">666</p>
+            <p class="interview-num">{{ userInfo.shareData.comment.total }}</p>
             <span class="interview-info">评论总数</span>
           </li>
         </ul>
@@ -109,9 +116,14 @@
 
 <script>
 import AlCell from '@/components/AlCell'
+import { mapState, mapGetters } from 'vuex'
 export default {
   name: 'my',
-  components: { AlCell }
+  components: { AlCell },
+  computed: {
+    ...mapState(['userInfo']),
+    ...mapGetters(['USERAVATAR', 'CORRECTRATE'])
+  }
 }
 </script>
 
