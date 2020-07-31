@@ -63,8 +63,8 @@ export default {
         // 将登陆状态修改为true
         this.SETISLOGIN(true)
         //  判断是不是被打回到登录页
-        if (this.$route.query['redirect ']) {
-          this.$router.push(`${this.getRedirect}`)
+        if (this.$route.query.redirect) {
+          this.$router.push(`${this.$route.query.redirect}`)
         } else {
           // 正常跳转的
           this.$router.push('/my')
@@ -96,19 +96,12 @@ export default {
       })
     },
     back () {
-      if (this.$route.query['redirect ']) {
+      if (this.$route.query.redirect) {
         this.$router.push('/find')
       } else {
         // 正常跳转的
         this.$router.go(-1)
       }
-    }
-  },
-  computed: {
-    getRedirect () {
-      var url = this.$route.query['redirect ']
-      var redirect = url.slice(2)
-      return redirect
     }
   }
 }

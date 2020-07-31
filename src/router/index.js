@@ -93,12 +93,12 @@ router.beforeEach((to, from, next) => {
             // 说明有token,但不是有效token
             Toast.fail('请先登录')
             removeToken()
-            next(`/login?redirect = ${to.fullPath}`)
+            next(`/login?redirect=${to.fullPath}`)
           })
         // 尝试获取用户信息
       } else {
         Toast.fail('请先登录')
-        next(`/login?redirect = ${to.fullPath}`)
+        next(`/login?redirect=${to.fullPath}`)
       }
     }
   } else {
