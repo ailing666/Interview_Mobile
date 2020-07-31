@@ -19,7 +19,9 @@
         <AlCell title="地区" @click="showArea = true" :value="SETAREA"></AlCell>
         <AlCell title="个人简介" :value="userInfo.intro"></AlCell>
       </div>
-      <van-button size="large" class="userinfo-button">退出登录</van-button>
+      <van-button size="large" class="userinfo-button" @click="loginout"
+        >退出登录</van-button
+      >
     </div>
     <van-popup
       v-model="showGender"
@@ -61,6 +63,7 @@
 import { editUserInfo } from '@/api/user.js'
 import { mapState, mapGetters, mapMutations } from 'vuex'
 import areaData from '@/utils/area.js'
+import { removeToken } from '@/utils/token.js'
 export default {
   name: 'userInfo',
   data () {
@@ -75,7 +78,7 @@ export default {
     this.areaData = areaData
   },
   methods: {
-    ...mapMutations(['EDITUSSERINFO']),
+    ...mapMutations(['EDITUSSERINFO', 'SAVEUSERINFO', 'SETISLOGIN']),
     onAreaCancel () {
       this.showArea = false
       // 还原默认值
@@ -113,6 +116,23 @@ export default {
       this.showGender = false
       // 还原默认值
       this.$refs.genderPicker.setColumnIndex(0, this.userInfo.gender)
+    },
+    loginout () {
+      this.$dialog
+        .confirm({
+          title: '提示',
+          message: '主人,你不要我了吗~!?'
+        })
+        .then(() => {
+          this.$toast.success('退出成功')
+          removeToken()
+          this.$router.push('/find')
+          this.SETISLOGIN(false)
+          this.SAVEUSERINFO('')
+        })
+        .catch(() => {
+          window.console.log('不走哦')
+        })
     }
   },
   computed: {
