@@ -1,9 +1,15 @@
 <template>
   <div class="alCell">
     <van-cell :title="title" :value="value">
+      <!-- 左侧图标 -->
       <template #icon>
         <i class="iconfont left-icon" :class="icon"></i>
       </template>
+      <!-- 右侧内容 -->
+      <template>
+        <slot>{{ value }}</slot>
+      </template>
+      <!-- 右侧图标 -->
       <template #right-icon>
         <i class="iconfont iconicon_more"></i>
       </template>

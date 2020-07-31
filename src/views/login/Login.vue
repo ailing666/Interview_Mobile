@@ -21,8 +21,9 @@
           :rules="[{ required: true, message: '请输入正确内容' }]"
         >
           <template #left-icon>
-            <i class="iconfont iconyanzhengma"></i
-          ></template>
+            <i class="iconfont iconyanzhengma"></i></template
+          >绑定是否弹出
+
           <template #button>
             <span class="get-code" @click="getCode">{{
               time === 0 ? '获取验证码' : `${time}s后重新获取`

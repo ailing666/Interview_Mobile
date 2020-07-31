@@ -6,6 +6,7 @@ import Question from '@/views/question/Question.vue'
 import Find from '@/views/find/Find.vue'
 import My from '@/views/my/My.vue'
 import Login from '@/views/login/Login.vue'
+import UserInfo from '@/views/userInfo/UserInfo.vue'
 // 导入store
 import store from '@/store/index.js'
 import { Toast } from 'vant'
@@ -66,6 +67,14 @@ const router = new VueRouter({
       component: Login,
       meta: {
         title: '登录'
+      }
+    },
+    {
+      path: '/userinfo',
+      component: UserInfo,
+      meta: {
+        title: '用户信息',
+        needLogin: true
       }
     }
   ]
