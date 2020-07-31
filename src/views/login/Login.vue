@@ -52,7 +52,7 @@ export default {
     }
   },
   methods: {
-    ...mapMutations(['SAVEUSERINFO']),
+    ...mapMutations(['SAVEUSERINFO', 'SETISLOGIN']),
     // 提交
     onSubmit () {
       login({ mobile: this.mobile, code: this.code }).then(res => {
@@ -60,6 +60,8 @@ export default {
         saveToken(res.data.jwt)
         // 保存用户信息
         this.SAVEUSERINFO(res.data.user)
+        // 将登陆状态修改为true
+        this.SETISLOGIN(true)
         // 调转到我的
         this.$router.push('/my')
       })

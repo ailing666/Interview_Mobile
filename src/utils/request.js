@@ -1,4 +1,5 @@
 import axios from 'axios'
+import { getToken } from '@/utils/token.js'
 // 创建axios副本
 const request = axios.create({
   baseURL: process.env.VUE_APP_URL
@@ -6,6 +7,11 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   function (config) {
+    window.console.log('config', config)
+    // 当发送的请求需要携带token时,设置请求头
+    if (config.needToken) {
+      config.headers.authorization = `Bearer ${getToken()}`
+    }
     // 在发送请求之前做些什么
     return config
   },

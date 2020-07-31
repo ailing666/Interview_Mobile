@@ -6,10 +6,19 @@ import Question from '@/views/question/Question.vue'
 import Find from '@/views/find/Find.vue'
 import My from '@/views/my/My.vue'
 import Login from '@/views/login/Login.vue'
+// 导入store
+import store from '@/store/index.js'
+import { Toast } from 'vant'
+import { getToken, removeToken } from '@/utils/token.js'
+import { getUserInfo } from '@/api/user.js'
 
 Vue.use(VueRouter)
 const router = new VueRouter({
   routes: [
+    /**
+     * showTabBar:是否显示tabbar
+     * needLogin:是否需要登录才能访问该页面
+     */
     {
       path: '/',
       redirect: '/login'
@@ -47,7 +56,8 @@ const router = new VueRouter({
       meta: {
         title: '我的',
         icon: 'iconicon_footbar_wode_nor',
-        showTabBar: true
+        showTabBar: true,
+        needLogin: true
       }
     },
     {
@@ -59,5 +69,42 @@ const router = new VueRouter({
     }
   ]
 })
-
+router.beforeEach((to, from, next) => {
+  window.console.log('to', to)
+  window.console.log('from', from)
+  // 判断要去的页面是否需要登录才能访问
+  if (to.meta.needLogin) {
+    // 判断用户是否登陆
+    if (store.state.isLogin) {
+      // 已经登陆
+      next()
+    } else {
+      // 没有登录,判断token,解决刷新后用户信息清空
+      if (getToken()) {
+        getUserInfo()
+          .then(res => {
+            // 获取用户信息成功,说明token有效
+            // 保存用户信息
+            store.commit('SAVEUSERINFO', res.data)
+            // 保存登录状态
+            store.commit('SETISLOGIN', true)
+            next()
+          })
+          .catch(() => {
+            // 说明有token,但不是有效token
+            Toast.fail('请先登录')
+            removeToken()
+            next('/login')
+          })
+        // 尝试获取用户信息
+      } else {
+        Toast.fail('请先登录')
+        next('/login')
+      }
+    }
+  } else {
+    // 直接访问
+    next()
+  }
+})
 export default router
