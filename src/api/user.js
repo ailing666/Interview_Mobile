@@ -10,3 +10,11 @@ export function getUserInfo () {
     needToken: true
   })
 }
+export function editUserInfo (data) {
+  return request({
+    url: '/au/edit',
+    data,
+    method: 'post',
+    needToken: true
+  })
+}

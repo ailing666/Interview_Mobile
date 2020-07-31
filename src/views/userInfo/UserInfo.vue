@@ -5,24 +5,120 @@
       <div class="userinfo-avatar">
         <AlCell title="头像">
           <template>
-            <img class="avatar" src="@/assets/avatar.jpg" alt="" />
+            <img class="avatar" :src="USERAVATAR" alt="" />
           </template>
         </AlCell>
       </div>
       <div class="userinfo-list">
-        <AlCell title="昵称" value="哎哎哎"></AlCell>
-        <AlCell title="性别" value="哎哎哎"></AlCell>
-        <AlCell title="地区" value="哎哎哎"></AlCell>
-        <AlCell title="个人简介" value="哎哎哎"></AlCell>
+        <AlCell title="昵称" :value="userInfo.nickname"></AlCell>
+        <AlCell
+          title="性别"
+          @click="showGender = true"
+          :value="SETGENDER"
+        ></AlCell>
+        <AlCell title="地区" @click="showArea = true" :value="SETAREA"></AlCell>
+        <AlCell title="个人简介" :value="userInfo.intro"></AlCell>
       </div>
       <van-button size="large" class="userinfo-button">退出登录</van-button>
     </div>
+    <van-popup
+      v-model="showGender"
+      position="buttom"
+      :style="{ width: '100vw' }"
+      @closed="onGenderCancel"
+    >
+      <van-picker
+        title="标题"
+        show-toolbar
+        :columns="columns"
+        @confirm="onGenderConfirm"
+        @cancel="onGenderCancel"
+        ref="genderPicker"
+      />
+    </van-popup>
+
+    <van-popup
+      v-model="showArea"
+      position="buttom"
+      :style="{ width: '100vw' }"
+      @closed="onAreaCancel"
+    >
+      <van-area
+        title="标题"
+        :value="userInfo.area"
+        :area-list="areaData"
+        :columns-num="2"
+        :columns-placeholder="['请选择', '请选择', '请选择']"
+        @confirm="onAreaConfirm"
+        @cancel="onAreaCancel"
+        ref="area"
+      />
+    </van-popup>
   </div>
 </template>
 
 <script>
+import { editUserInfo } from '@/api/user.js'
+import { mapState, mapGetters, mapMutations } from 'vuex'
+import areaData from '@/utils/area.js'
 export default {
-  name: 'userInfo'
+  name: 'userInfo',
+  data () {
+    return {
+      showGender: false,
+      showArea: false,
+      areaData: {},
+      columns: ['未知', '男', '女']
+    }
+  },
+  created () {
+    this.areaData = areaData
+  },
+  methods: {
+    ...mapMutations(['EDITUSSERINFO']),
+    onAreaCancel () {
+      this.showArea = false
+      // 还原默认值
+      this.$refs.area.reset(this.userInfo.area)
+    },
+    onAreaConfirm (value) {
+      this.$toast.loading({ duration: 0 })
+      this.showArea = false
+      window.console.log(value)
+      // 调用接口
+      editUserInfo({ area: value[1].code }).then(res => {
+        this.EDITUSSERINFO({
+          propName: 'area',
+          propValue: value[1].code
+        })
+        this.$toast.success('修改成功')
+      })
+    },
+    // 选择事件
+    onGenderConfirm (value, index) {
+      this.$toast.loading({ duration: 0 })
+      this.showGender = false
+      // 调用接口修改信息
+      editUserInfo({ gender: index }).then(res => {
+        this.EDITUSSERINFO({
+          propName: 'gender',
+          propValue: index
+        })
+        this.$toast.success('修改成功')
+        window.console.log(res)
+      })
+    },
+    // 取消事件
+    onGenderCancel () {
+      this.showGender = false
+      // 还原默认值
+      this.$refs.genderPicker.setColumnIndex(0, this.userInfo.gender)
+    }
+  },
+  computed: {
+    ...mapState(['userInfo']),
+    ...mapGetters(['USERAVATAR', 'SETGENDER', 'SETAREA'])
+  }
 }
 </script>
 

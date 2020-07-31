@@ -1,6 +1,6 @@
 <template>
   <div class="alCell">
-    <van-cell :title="title" :value="value">
+    <van-cell :title="title" :value="value" @click="clickLeft">
       <!-- 左侧图标 -->
       <template #icon>
         <i class="iconfont left-icon" :class="icon"></i>
@@ -20,7 +20,12 @@
 <script>
 export default {
   name: 'AlCell',
-  props: ['title', 'value', 'icon']
+  props: ['title', 'value', 'icon'],
+  methods: {
+    clickLeft () {
+      this.$emit('click')
+    }
+  }
 }
 </script>
 
