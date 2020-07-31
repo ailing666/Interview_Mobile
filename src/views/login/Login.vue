@@ -1,6 +1,6 @@
 <template>
   <div class="login">
-    <AlNavBar></AlNavBar>
+    <AlNavBar @onClickLeft="back"></AlNavBar>
     <div class="login-main">
       <h4>您好,请登录</h4>
       <van-form @submit="onSubmit" ref="loginForm">
@@ -62,8 +62,13 @@ export default {
         this.SAVEUSERINFO(res.data.user)
         // 将登陆状态修改为true
         this.SETISLOGIN(true)
-        // 调转到我的
-        this.$router.push('/my')
+        //  判断是不是被打回到登录页
+        if (this.$route.query['redirect ']) {
+          this.$router.push(`${this.getRedirect}`)
+        } else {
+          // 正常跳转的
+          this.$router.push('/my')
+        }
       })
     },
     getCode () {
@@ -89,6 +94,21 @@ export default {
           this.$toast.success(res.data)
         })
       })
+    },
+    back () {
+      if (this.$route.query['redirect ']) {
+        this.$router.push('/find')
+      } else {
+        // 正常跳转的
+        this.$router.go(-1)
+      }
+    }
+  },
+  computed: {
+    getRedirect () {
+      var url = this.$route.query['redirect ']
+      var redirect = url.slice(2)
+      return redirect
     }
   }
 }

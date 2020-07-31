@@ -1,6 +1,11 @@
 <template>
   <div class="alNavBar">
-    <van-nav-bar :title="title" :left-text="leftText" :right-text="rightText">
+    <van-nav-bar
+      :title="title"
+      :left-text="leftText"
+      :right-text="rightText"
+      @click-left="onClickLeft"
+    >
       <template #left>
         <i class="iconfont iconbtn_nav_back"></i>
       </template>
@@ -17,7 +22,12 @@
 <script>
 export default {
   name: 'AlNavBar',
-  props: ['title', 'leftText', 'rightText']
+  props: ['title', 'leftText', 'rightText'],
+  methods: {
+    onClickLeft () {
+      this.$emit('onClickLeft')
+    }
+  }
 }
 </script>
 

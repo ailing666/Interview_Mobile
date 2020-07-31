@@ -7,7 +7,6 @@ const request = axios.create({
 // 添加请求拦截器
 request.interceptors.request.use(
   function (config) {
-    window.console.log('config', config)
     // 当发送的请求需要携带token时,设置请求头
     if (config.needToken) {
       config.headers.authorization = `Bearer ${getToken()}`

@@ -38,7 +38,8 @@ const router = new VueRouter({
       meta: {
         title: '刷题',
         icon: 'iconicon_footbar_st_sel',
-        showTabBar: true
+        showTabBar: true,
+        needLogin: true
       }
     },
     {
@@ -70,8 +71,6 @@ const router = new VueRouter({
   ]
 })
 router.beforeEach((to, from, next) => {
-  window.console.log('to', to)
-  window.console.log('from', from)
   // 判断要去的页面是否需要登录才能访问
   if (to.meta.needLogin) {
     // 判断用户是否登陆
@@ -94,12 +93,12 @@ router.beforeEach((to, from, next) => {
             // 说明有token,但不是有效token
             Toast.fail('请先登录')
             removeToken()
-            next('/login')
+            next(`/login?redirect = ${to.fullPath}`)
           })
         // 尝试获取用户信息
       } else {
         Toast.fail('请先登录')
-        next('/login')
+        next(`/login?redirect = ${to.fullPath}`)
       }
     }
   } else {
