@@ -5,6 +5,7 @@
       :left-text="leftText"
       :right-text="rightText"
       @click-left="onClickLeft"
+      @click-right="onClickRight"
     >
       <template #left>
         <i class="iconfont iconbtn_nav_back"></i>
@@ -26,6 +27,9 @@ export default {
   methods: {
     onClickLeft () {
       this.$emit('onClickLeft')
+    },
+    onClickRight () {
+      this.$emit('onClickRight')
     }
   }
 }

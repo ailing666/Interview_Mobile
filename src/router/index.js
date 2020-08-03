@@ -7,6 +7,7 @@ import Find from '@/views/find/Find.vue'
 import My from '@/views/my/My.vue'
 import Login from '@/views/login/Login.vue'
 import UserInfo from '@/views/userInfo/UserInfo.vue'
+import EditUserInfo from '@/views/editUserInfo/EditUserInfo.vue'
 // 导入store
 import store from '@/store/index.js'
 import { Toast } from 'vant'
@@ -72,6 +73,14 @@ const router = new VueRouter({
     {
       path: '/userinfo',
       component: UserInfo,
+      meta: {
+        title: '用户信息',
+        needLogin: true
+      }
+    },
+    {
+      path: '/editUserInfo',
+      component: EditUserInfo,
       meta: {
         title: '用户信息',
         needLogin: true

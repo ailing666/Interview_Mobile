@@ -22,7 +22,12 @@ export default new Vuex.Store({
   },
   getters: {
     USERAVATAR (state) {
-      return process.env.VUE_APP_URL + state.userInfo.avatar
+      const _reg = /^[^http]/
+      if (_reg.test(state.userInfo.avatar)) {
+        return process.env.VUE_APP_URL + state.userInfo.avatar
+      } else {
+        return state.userInfo.avatar
+      }
     },
     CORRECTRATE (state) {
       const totalNum = state.userInfo.submitNum

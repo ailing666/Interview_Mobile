@@ -18,3 +18,12 @@ export function editUserInfo (data) {
     needToken: true
   })
 }
+
+export function uploadFiles (data) {
+  return request({
+    url: '/upload',
+    data,
+    method: 'post',
+    needToken: true
+  })
+}

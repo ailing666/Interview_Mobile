@@ -1,23 +1,31 @@
 <template>
   <div class="userInfo">
-    <AlNavBar title="我的资料"></AlNavBar>
+    <AlNavBar title="我的资料" @onClickLeft="back"></AlNavBar>
     <div class="userinfo-main">
       <div class="userinfo-avatar">
-        <AlCell title="头像">
+        <AlCell title="头像" @click="toedit('avatar')">
           <template>
             <img class="avatar" :src="USERAVATAR" alt="" />
           </template>
         </AlCell>
       </div>
       <div class="userinfo-list">
-        <AlCell title="昵称" :value="userInfo.nickname"></AlCell>
+        <AlCell
+          title="昵称"
+          :value="userInfo.nickname"
+          @click="toedit('nickname')"
+        ></AlCell>
         <AlCell
           title="性别"
           @click="showGender = true"
           :value="SETGENDER"
         ></AlCell>
         <AlCell title="地区" @click="showArea = true" :value="SETAREA"></AlCell>
-        <AlCell title="个人简介" :value="userInfo.intro"></AlCell>
+        <AlCell
+          title="个人简介"
+          :value="userInfo.intro"
+          @click="toedit('intro')"
+        ></AlCell>
       </div>
       <van-button size="large" class="userinfo-button" @click="loginout"
         >退出登录</van-button
@@ -79,6 +87,9 @@ export default {
   },
   methods: {
     ...mapMutations(['EDITUSSERINFO', 'SAVEUSERINFO', 'SETISLOGIN']),
+    toedit (prop) {
+      this.$router.push(`/editUserInfo?prop=${prop}`)
+    },
     onAreaCancel () {
       this.showArea = false
       // 还原默认值
@@ -117,6 +128,7 @@ export default {
       // 还原默认值
       this.$refs.genderPicker.setColumnIndex(0, this.userInfo.gender)
     },
+    // 退出按钮
     loginout () {
       this.$dialog
         .confirm({
@@ -133,6 +145,9 @@ export default {
         .catch(() => {
           window.console.log('不走哦')
         })
+    },
+    back () {
+      this.$router.go(-1)
     }
   },
   computed: {
