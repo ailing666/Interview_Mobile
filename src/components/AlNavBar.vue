@@ -7,7 +7,7 @@
       @click-left="onClickLeft"
       @click-right="onClickRight"
     >
-      <template #left>
+      <template #left v-if="showBack">
         <i class="iconfont iconbtn_nav_back"></i>
       </template>
       <template #title>
@@ -23,7 +23,22 @@
 <script>
 export default {
   name: 'AlNavBar',
-  props: ['title', 'leftText', 'rightText'],
+  props: {
+    title: {
+      type: String
+    },
+    leftText: {
+      type: String
+    },
+    rightText: {
+      type: String
+    },
+    showBack: {
+      type: Boolean,
+      default: true
+    }
+
+  },
   methods: {
     onClickLeft () {
       this.$emit('onClickLeft')
