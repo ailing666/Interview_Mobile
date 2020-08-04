@@ -14,9 +14,22 @@ import './styles/iconfont.css'
 import './styles/var.less'
 import AlNavBar from '@/components/AlNavBar.vue'
 import AlCell from '@/components/AlCell.vue'
+import moment from 'moment'
+Vue.filter('formatTime', value => {
+  moment.locale('zh-cn')
+  // 删除z,改为中国时区
+  value = value.slice(0, value.length - 2)
+  //  计算时间差
+  const delayTime = moment().diff(moment(value), 'days')
+  // 判断是否超过一天
+  if (delayTime > 1) {
+    return moment(value).format('YYYY年MM月DD日')
+  } else {
+    return moment(value).fromNow()
+  }
+})
 // 注册Vant
 Vue.use(Vant)
-
 Vue.config.productionTip = false
 Vue.component(AlCell.name, AlCell)
 Vue.component(AlNavBar.name, AlNavBar)

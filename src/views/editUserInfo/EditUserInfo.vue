@@ -104,7 +104,6 @@ export default {
       return this.inputValue !== this.userInfo[this.$route.query.prop]
     }
   }
-
 }
 </script>
 
