@@ -35,22 +35,41 @@
         <div class="data-content">
           <!-- 标签 -->
           <div class="tags">
-            <div class="tag">北京</div>
-            <div class="tag">产品经理</div>
+            <div class="tag">{{ cityObj[0] }}</div>
+            <div class="tag">{{ cityObj[1] }}</div>
           </div>
           <!-- 进度 -->
-          <ul>
+          <ul v-for="item in chartList" :key="item.id">
             <li>
-              <div class="year">2020年</div>
+              <div class="year">{{ item.year.slice(0, 5) }}</div>
               <div class="process">
-                <p class="son">￥12222</p>
+                <p
+                  class="son"
+                  :style="{
+                    width:
+                      ((item.salary / chartData.topSalary) * 100).toFixed(1) +
+                      '%'
+                  }"
+                >
+                  ￥{{ item.salary }}
+                </p>
               </div>
               <div class="arrow">
-                <!-- iconicon_shangsheng -->
-                <i class="iconfont iconicon_shangsheng"></i>10%
+                <i
+                  class="iconfont "
+                  :class="{
+                    iconicon_shangsheng: item.percent > 0,
+                    iconicon_xiajiang: item.percent < 0
+                  }"
+                ></i>
+                <span v-if="item.percent">{{ item.percent }}%</span>
               </div>
             </li>
           </ul>
+          <div class="more" @click="getMore">
+            展开更多
+            <i class="iconfont iconicon_zhankai"></i>
+          </div>
         </div>
       </div>
       <!-- 面经分享 -->
@@ -85,12 +104,17 @@
 </template>
 
 <script>
-import { interviewTechnic } from '@/api/find.js'
+import { interviewTechnic, chartData } from '@/api/find.js'
 export default {
   name: 'Find',
   data () {
     return {
-      interviewList: []
+      interviewList: [],
+      cityObj: [],
+      chartList: [],
+      chartData: [],
+      // 是否显示全部
+      isAll: false
     }
   },
   created () {
@@ -98,13 +122,28 @@ export default {
   },
   methods: {
     getData () {
+      // 获取面试技巧
       interviewTechnic().then(res => {
         res.data.list.forEach(item => {
           item.cover && (item.cover = process.env.VUE_APP_URL + item.cover)
         })
         this.interviewList = res.data.list
-        window.console.log(this.interviewList)
       })
+      // 获取市场数据
+      chartData().then(res => {
+        this.cityObj = [res.data.city, res.data.position]
+        this.chartData = res.data
+        this.chartList = this.chartData.yearSalary.reverse().slice(0, 4)
+      })
+    },
+    getMore () {
+      // 取反
+      this.isAll = !this.isAll
+      if (this.isAll) {
+        this.chartList = this.chartData.yearSalary
+      } else {
+        this.chartList = this.chartData.yearSalary.reverse().slice(0, 4)
+      }
     }
   }
 }
@@ -177,6 +216,7 @@ export default {
         background-color: #fff;
         .tags {
           display: flex;
+          margin-bottom: 10px;
           .tag {
             height: 24px;
             margin-left: 8px;
@@ -194,17 +234,18 @@ export default {
             display: flex;
             font-size: 14px;
             color: #545671;
+            margin-bottom: 5px;
             .year {
             }
             .process {
               flex: 1;
               overflow: hidden;
               height: 12px;
+              margin: 0 5px;
               background: #ebdfdf;
               border-radius: 4px;
               .son {
                 box-sizing: border-box;
-                width: 106px;
                 line-height: 12px;
                 padding-right: 15px;
                 background: #fe6d67;
@@ -215,11 +256,20 @@ export default {
               }
             }
             .arrow {
-              i {
+              width: 50px;
+              .iconicon_xiajiang {
+                color: @success-color;
+              }
+              .iconicon_shangsheng {
                 color: @error-color;
               }
             }
           }
+        }
+        .more {
+          font-size: 14px;
+          color: #545671;
+          text-align: center;
         }
       }
     }
