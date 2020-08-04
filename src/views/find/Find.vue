@@ -5,23 +5,27 @@
       <!-- 面试技巧 -->
       <div class="interview-technique">
         <AlCell title="面试技巧" value="查看更多"></AlCell>
-        <div class="technique-content">
+        <div
+          class="technique-content"
+          v-for="item in interviewList"
+          :key="item.id"
+        >
           <div class="left">
             <h3 class="header">
-              盘点面试中最为难的五大棘手问题，你是否遇到过？教你如何应对。
+              {{ item.title }}
             </h3>
             <div class="buttom">
-              <div class="time">1小时前</div>
+              <div class="time">{{ item.created_at | formatTime }}</div>
               <div class="read">
-                <i class="iconfont iconicon_liulanliang"></i>66
+                <i class="iconfont iconicon_liulanliang"></i>{{ item.read }}
               </div>
               <div class="star">
-                <i class="iconfont iconicon_dianzanliang"></i>66
+                <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
               </div>
             </div>
           </div>
-          <div class="cover">
-            <img src="../../assets/logo.png" alt="" />
+          <div class="cover" v-if="item.cover">
+            <img :src="item.cover" alt="" />
           </div>
         </div>
       </div>
@@ -81,8 +85,28 @@
 </template>
 
 <script>
+import { interviewTechnic } from '@/api/find.js'
 export default {
-  name: 'Find'
+  name: 'Find',
+  data () {
+    return {
+      interviewList: []
+    }
+  },
+  created () {
+    this.getData()
+  },
+  methods: {
+    getData () {
+      interviewTechnic().then(res => {
+        res.data.list.forEach(item => {
+          item.cover && (item.cover = process.env.VUE_APP_URL + item.cover)
+        })
+        this.interviewList = res.data.list
+        window.console.log(this.interviewList)
+      })
+    }
+  }
 }
 </script>
 
@@ -93,25 +117,37 @@ export default {
   .find-main {
     // 全局样式
     i {
+      margin-right: 3px;
       font-size: 16px;
+    }
+    .van-cell__title {
+      margin-left: -8px;
+      span {
+        font-size: 18px;
+        font-weight: 600;
+        color: #222222;
+      }
     }
     // 面试技巧
     .interview-technique {
       .technique-content {
         display: flex;
-        padding: 0 15px;
+        padding: 15px;
         background-color: #fff;
         .left {
           flex: 1;
+          display: flex;
+          flex-direction: column;
+          justify-content: space-between;
+          height: 75px;
           .header {
             font-size: 16px;
-            font-weight: 500;
+            font-weight: 600;
             color: #181a39;
           }
           .buttom {
             display: flex;
             align-items: center;
-            margin-top: 8px;
             font-size: 12px;
             color: #b4b4bd;
             .time {
@@ -125,9 +161,11 @@ export default {
           }
         }
         .cover {
+          margin-left: 10px;
           img {
             width: 113px;
             height: 75px;
+            border-radius: 5px;
           }
         }
       }
