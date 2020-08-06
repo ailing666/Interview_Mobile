@@ -75,26 +75,27 @@
       <!-- 面经分享 -->
       <div class="interview-share">
         <AlCell title="面经分享" value="查看更多"></AlCell>
-        <div class="share-content">
+        <div class="share-content" v-for="item in shareList" :key="item.id">
           <h3 class="title">
-            非名校出身的他，是如何拿到 Facebook 等5家顶尖科技公司的Offer？
+            {{ item.title }}
           </h3>
           <article class="article">
-            这篇文章是专门为那些即将开始找工作的人写的。很多正在找工作的人可能会担心因为自己不是毕业于常青藤名校而无法在顶尖科技公司找到一份理想的工作。
+            {{ item.content }}
           </article>
           <div class="buttom">
             <div class="left">
               <div class="avatar">
-                <img src="../../assets/logo.png" alt="" />
-                <div class="nickname">小艾同学</div>
+                <img :src="item.author.avatar" alt="" />
+                <div class="nickname">{{ item.author.nickname }}</div>
               </div>
             </div>
-            <div class="time">1小时</div>
+            <div class="time">{{ item.created_at | formatTime }}</div>
             <div class="comment">
-              <i class="iconfont iconicon_pinglunliang"></i>55
+              <i class="iconfont iconicon_pinglunliang"></i
+              >{{ item.article_comments }}
             </div>
             <div class="star">
-              <i class="iconfont iconicon_dianzanliang"></i>55
+              <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
             </div>
           </div>
         </div>
@@ -104,17 +105,23 @@
 </template>
 
 <script>
-import { interviewTechnic, chartData } from '@/api/find.js'
+import { interviewTechnic, chartData, interviewShare } from '@/api/find.js'
 export default {
   name: 'Find',
   data () {
     return {
+      // 面试技巧
       interviewList: [],
+      // 城市
       cityObj: [],
-      chartList: [],
+      // 市场数据数组
       chartData: [],
+      // 用来渲染的数组
+      chartList: [],
       // 是否显示全部
-      isAll: false
+      isAll: false,
+      // 面经分享
+      shareList: ''
     }
   },
   created () {
@@ -135,6 +142,12 @@ export default {
         this.chartData = res.data
         this.chartData.yearSalary.reverse()
         this.chartList = this.chartData.yearSalary.slice(0, 4)
+      })
+      interviewShare().then(res => {
+        res.data.list.forEach(item => {
+          this.$avatar(item.author)
+        })
+        this.shareList = res.data.list
       })
     },
     getMore () {
@@ -277,30 +290,40 @@ export default {
     // 面经分享
     .interview-share {
       .share-content {
-        padding: 0 15px;
+        padding: 15px;
         background-color: #fff;
         .title {
           font-size: 16px;
-          font-weight: 500;
+          font-weight: 700;
           color: #181a39;
         }
         .article {
+          margin: 10px 0;
+          width: 345px;
           font-size: 13px;
           color: #545671;
+          line-height: 19px;
+          letter-spacing: 0px;
+          overflow: hidden;
+          text-overflow: ellipsis;
+          display: -webkit-box;
+          -webkit-line-clamp: 2;
+          -webkit-box-orient: vertical;
         }
         .buttom {
           display: flex;
-          font-size: 12px;
-
           font-size: 12px;
           color: #b4b4bd;
           .left {
             flex: 1;
             .avatar {
               display: flex;
+              align-items: center;
               img {
                 width: 22px;
                 height: 22px;
+                margin-right: 8px;
+                border-radius: 50%;
               }
               .nickname {
                 color: #545671;

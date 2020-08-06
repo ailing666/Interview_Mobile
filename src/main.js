@@ -15,6 +15,8 @@ import './styles/var.less'
 import AlNavBar from '@/components/AlNavBar.vue'
 import AlCell from '@/components/AlCell.vue'
 import moment from 'moment'
+// 导入自己的全局工具
+import Alavatar from '@/plugins/avatar.js'
 Vue.filter('formatTime', value => {
   moment.locale('zh-cn')
   // 删除z,改为中国时区
@@ -30,6 +32,7 @@ Vue.filter('formatTime', value => {
 })
 // 注册Vant
 Vue.use(Vant)
+Vue.use(Alavatar)
 Vue.config.productionTip = false
 Vue.component(AlCell.name, AlCell)
 Vue.component(AlNavBar.name, AlNavBar)
