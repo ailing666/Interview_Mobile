@@ -6,7 +6,12 @@
  */
 export default function (Vue) {
   Vue.prototype.$avatar = function (avatarObj) {
-    avatarObj.avatar &&
-      (avatarObj.avatar = process.env.VUE_APP_URL + avatarObj.avatar)
+    if (avatarObj.avatar) {
+      avatarObj.avatar &&
+        (avatarObj.avatar = process.env.VUE_APP_URL + avatarObj.avatar)
+    } else {
+      avatarObj.cover &&
+        (avatarObj.cover = process.env.VUE_APP_URL + avatarObj.cover)
+    }
   }
 }

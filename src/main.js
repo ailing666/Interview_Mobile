@@ -12,8 +12,8 @@ import 'amfe-flexible'
 import './styles/iconfont.css'
 // 引入全局less
 import './styles/var.less'
-import AlNavBar from '@/components/AlNavBar.vue'
-import AlCell from '@/components/AlCell.vue'
+// 导图自己的全局组件
+import myComponents from '@/components/index'
 import moment from 'moment'
 // 导入自己的全局工具
 import Alavatar from '@/plugins/avatar.js'
@@ -33,9 +33,9 @@ Vue.filter('formatTime', value => {
 // 注册Vant
 Vue.use(Vant)
 Vue.use(Alavatar)
+Vue.use(myComponents)
 Vue.config.productionTip = false
-Vue.component(AlCell.name, AlCell)
-Vue.component(AlNavBar.name, AlNavBar)
+
 new Vue({
   router,
   store,

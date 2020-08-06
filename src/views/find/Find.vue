@@ -5,29 +5,17 @@
       <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
         <!-- 面试技巧 -->
         <div class="interview-technique">
-          <AlCell title="面试技巧" value="查看更多"></AlCell>
+          <AlCell
+            title="面试技巧"
+            value="查看更多"
+            @click="$router.push('/shareList')"
+          ></AlCell>
           <div
             class="technique-content"
             v-for="item in interviewList"
             :key="item.id"
           >
-            <div class="left">
-              <h3 class="header">
-                {{ item.title }}
-              </h3>
-              <div class="buttom">
-                <div class="time">{{ item.created_at | formatTime }}</div>
-                <div class="read">
-                  <i class="iconfont iconicon_liulanliang"></i>{{ item.read }}
-                </div>
-                <div class="star">
-                  <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
-                </div>
-              </div>
-            </div>
-            <div class="cover" v-if="item.cover">
-              <img :src="item.cover" alt="" />
-            </div>
+            <AlTechniqueItem :item="item"></AlTechniqueItem>
           </div>
         </div>
         <!-- 市场数据 -->
@@ -108,9 +96,11 @@
 </template>
 
 <script>
+import AlTechniqueItem from '@/components/AlTechniqueItem'
 import { interviewTechnic, chartData, interviewShare } from '@/api/find.js'
 export default {
   name: 'Find',
+  components: { AlTechniqueItem },
   data () {
     return {
       // 面试技巧
@@ -197,40 +187,6 @@ export default {
         display: flex;
         padding: 15px;
         background-color: @white-color;
-        .left {
-          flex: 1;
-          display: flex;
-          flex-direction: column;
-          justify-content: space-between;
-          height: 75px;
-          .header {
-            font-size: 16px;
-            font-weight: 600;
-            color: @main-font-color;
-          }
-          .buttom {
-            display: flex;
-            align-items: center;
-            font-size: 12px;
-            color: @minor-font-color;
-            .time {
-              flex: 1;
-            }
-            // .read {
-            // }
-            .star {
-              margin: 0 15px;
-            }
-          }
-        }
-        .cover {
-          margin-left: 10px;
-          img {
-            width: 113px;
-            height: 75px;
-            border-radius: 5px;
-          }
-        }
       }
     }
     // 市场数据
