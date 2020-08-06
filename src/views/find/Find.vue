@@ -2,104 +2,107 @@
   <div class="find">
     <AlNavBar title="发现" :showBack="false"></AlNavBar>
     <div class="find-main">
-      <!-- 面试技巧 -->
-      <div class="interview-technique">
-        <AlCell title="面试技巧" value="查看更多"></AlCell>
-        <div
-          class="technique-content"
-          v-for="item in interviewList"
-          :key="item.id"
-        >
-          <div class="left">
-            <h3 class="header">
+      <van-pull-refresh v-model="isLoading" @refresh="onRefresh">
+        <!-- 面试技巧 -->
+        <div class="interview-technique">
+          <AlCell title="面试技巧" value="查看更多"></AlCell>
+          <div
+            class="technique-content"
+            v-for="item in interviewList"
+            :key="item.id"
+          >
+            <div class="left">
+              <h3 class="header">
+                {{ item.title }}
+              </h3>
+              <div class="buttom">
+                <div class="time">{{ item.created_at | formatTime }}</div>
+                <div class="read">
+                  <i class="iconfont iconicon_liulanliang"></i>{{ item.read }}
+                </div>
+                <div class="star">
+                  <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
+                </div>
+              </div>
+            </div>
+            <div class="cover" v-if="item.cover">
+              <img :src="item.cover" alt="" />
+            </div>
+          </div>
+        </div>
+        <!-- 市场数据 -->
+        <div class="chart-data">
+          <AlCell title="市场数据" value="查看更多"></AlCell>
+          <div class="data-content">
+            <!-- 标签 -->
+            <div class="tags">
+              <div class="tag">{{ cityObj[0] }}</div>
+              <div class="tag">{{ cityObj[1] }}</div>
+            </div>
+            <!-- 进度 -->
+            <ul v-for="item in chartList" :key="item.id">
+              <li>
+                <div class="year">{{ item.year.slice(0, 5) }}</div>
+                <div class="process">
+                  <p
+                    class="son"
+                    :style="{
+                      width:
+                        ((item.salary / chartData.topSalary) * 100).toFixed(1) +
+                        '%'
+                    }"
+                  >
+                    ￥{{ item.salary }}
+                  </p>
+                </div>
+                <div class="arrow">
+                  <i
+                    class="iconfont "
+                    :class="{
+                      iconicon_shangsheng: item.percent > 0,
+                      iconicon_xiajiang: item.percent < 0
+                    }"
+                  ></i>
+                  <span v-if="item.percent">{{ item.percent }}%</span>
+                </div>
+              </li>
+            </ul>
+            <div class="more" @click="getMore">
+              展开更多
+              <i class="iconfont iconicon_zhankai"></i>
+            </div>
+          </div>
+        </div>
+        <!-- 面经分享 -->
+        <div class="interview-share">
+          <AlCell title="面经分享" value="查看更多"></AlCell>
+          <div class="share-content" v-for="item in shareList" :key="item.id">
+            <h3 class="title">
               {{ item.title }}
             </h3>
+            <article class="article">
+              {{ item.content }}
+            </article>
             <div class="buttom">
+              <div class="left">
+                <div class="avatar">
+                  <img :src="item.author.avatar" alt="" />
+                  <div class="nickname">{{ item.author.nickname }}</div>
+                </div>
+              </div>
               <div class="time">{{ item.created_at | formatTime }}</div>
-              <div class="read">
-                <i class="iconfont iconicon_liulanliang"></i>{{ item.read }}
+              <div class="comment">
+                <i class="iconfont iconicon_pinglunliang"></i
+                >{{ item.article_comments }}
               </div>
               <div class="star">
                 <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
               </div>
             </div>
           </div>
-          <div class="cover" v-if="item.cover">
-            <img :src="item.cover" alt="" />
-          </div>
         </div>
-      </div>
-      <!-- 市场数据 -->
-      <div class="chart-data">
-        <AlCell title="市场数据" value="查看更多"></AlCell>
-        <div class="data-content">
-          <!-- 标签 -->
-          <div class="tags">
-            <div class="tag">{{ cityObj[0] }}</div>
-            <div class="tag">{{ cityObj[1] }}</div>
-          </div>
-          <!-- 进度 -->
-          <ul v-for="item in chartList" :key="item.id">
-            <li>
-              <div class="year">{{ item.year.slice(0, 5) }}</div>
-              <div class="process">
-                <p
-                  class="son"
-                  :style="{
-                    width:
-                      ((item.salary / chartData.topSalary) * 100).toFixed(1) +
-                      '%'
-                  }"
-                >
-                  ￥{{ item.salary }}
-                </p>
-              </div>
-              <div class="arrow">
-                <i
-                  class="iconfont "
-                  :class="{
-                    iconicon_shangsheng: item.percent > 0,
-                    iconicon_xiajiang: item.percent < 0
-                  }"
-                ></i>
-                <span v-if="item.percent">{{ item.percent }}%</span>
-              </div>
-            </li>
-          </ul>
-          <div class="more" @click="getMore">
-            展开更多
-            <i class="iconfont iconicon_zhankai"></i>
-          </div>
-        </div>
-      </div>
-      <!-- 面经分享 -->
-      <div class="interview-share">
-        <AlCell title="面经分享" value="查看更多"></AlCell>
-        <div class="share-content" v-for="item in shareList" :key="item.id">
-          <h3 class="title">
-            {{ item.title }}
-          </h3>
-          <article class="article">
-            {{ item.content }}
-          </article>
-          <div class="buttom">
-            <div class="left">
-              <div class="avatar">
-                <img :src="item.author.avatar" alt="" />
-                <div class="nickname">{{ item.author.nickname }}</div>
-              </div>
-            </div>
-            <div class="time">{{ item.created_at | formatTime }}</div>
-            <div class="comment">
-              <i class="iconfont iconicon_pinglunliang"></i
-              >{{ item.article_comments }}
-            </div>
-            <div class="star">
-              <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
-            </div>
-          </div>
-        </div>
-      </div>
+      </van-pull-refresh>
+      <div class="bottom">到底了</div>
     </div>
   </div>
 </template>
@@ -121,13 +124,16 @@ export default {
       // 是否显示全部
       isAll: false,
       // 面经分享
-      shareList: ''
+      shareList: '',
+      // 是否在加载
+      isLoading: false
     }
   },
   created () {
     this.getData()
   },
   methods: {
+    // 数据请求
     getData () {
       // 获取面试技巧
       interviewTechnic().then(res => {
@@ -150,14 +156,20 @@ export default {
         this.shareList = res.data.list
       })
     },
+    // 查看更多
     getMore () {
       // 取反
       this.isAll = !this.isAll
-      if (this.isAll) {
-        this.chartList = this.chartData.yearSalary
-      } else {
-        this.chartList = this.chartData.yearSalary.slice(0, 4)
-      }
+      this.isAll
+        ? (this.chartList = this.chartData.yearSalary)
+        : (this.chartList = this.chartData.yearSalary.slice(0, 4))
+    },
+    // 下拉刷新
+    onRefresh () {
+      setTimeout(() => {
+        this.getData()
+        this.isLoading = false
+      }, 1000)
     }
   }
 }
@@ -165,8 +177,6 @@ export default {
 
 <style lang="less">
 .find {
-  height: 100vh;
-  background: #f7f4f5;
   .find-main {
     // 全局样式
     i {
@@ -186,7 +196,7 @@ export default {
       .technique-content {
         display: flex;
         padding: 15px;
-        background-color: #fff;
+        background-color: @white-color;
         .left {
           flex: 1;
           display: flex;
@@ -196,18 +206,18 @@ export default {
           .header {
             font-size: 16px;
             font-weight: 600;
-            color: #181a39;
+            color: @main-font-color;
           }
           .buttom {
             display: flex;
             align-items: center;
             font-size: 12px;
-            color: #b4b4bd;
+            color: @minor-font-color;
             .time {
               flex: 1;
             }
-            .read {
-            }
+            // .read {
+            // }
             .star {
               margin: 0 15px;
             }
@@ -227,7 +237,7 @@ export default {
     .chart-data {
       .data-content {
         padding: 0 15px;
-        background-color: #fff;
+        background-color: @white-color;
         .tags {
           display: flex;
           margin-bottom: 10px;
@@ -240,17 +250,17 @@ export default {
             font-size: 14px;
             text-align: center;
             line-height: 24px;
-            color: #545671;
+            color: @subdominant-font-color;
           }
         }
         ul {
           li {
             display: flex;
             font-size: 14px;
-            color: #545671;
+            color: @subdominant-font-color;
             margin-bottom: 5px;
-            .year {
-            }
+            // .year {
+            // }
             .process {
               flex: 1;
               overflow: hidden;
@@ -266,7 +276,7 @@ export default {
                 border-radius: 4px;
                 font-size: 11px;
                 text-align: right;
-                color: #ffffff;
+                color: @white-color;
               }
             }
             .arrow {
@@ -282,7 +292,7 @@ export default {
         }
         .more {
           font-size: 14px;
-          color: #545671;
+          color: @subdominant-font-color;
           text-align: center;
         }
       }
@@ -291,17 +301,17 @@ export default {
     .interview-share {
       .share-content {
         padding: 15px;
-        background-color: #fff;
+        background-color: @white-color;
         .title {
           font-size: 16px;
           font-weight: 700;
-          color: #181a39;
+          color: @main-font-color;
         }
         .article {
           margin: 10px 0;
           width: 345px;
           font-size: 13px;
-          color: #545671;
+          color: @subdominant-font-color;
           line-height: 19px;
           letter-spacing: 0px;
           overflow: hidden;
@@ -313,7 +323,7 @@ export default {
         .buttom {
           display: flex;
           font-size: 12px;
-          color: #b4b4bd;
+          color: @minor-font-color;
           .left {
             flex: 1;
             .avatar {
@@ -326,19 +336,26 @@ export default {
                 border-radius: 50%;
               }
               .nickname {
-                color: #545671;
+                color: @subdominant-font-color;
               }
             }
           }
-          .time {
-          }
+          // .time {
+          // }
           .comment {
             margin: 0 10px;
           }
-          .star {
-          }
+          // .star {
+          // }
         }
       }
+    }
+    .bottom {
+      height: 100px;
+      line-height: 55px;
+      font-size: 14px;
+      color: @minor-font-color;
+      text-align: center;
     }
   }
 }
