@@ -133,7 +133,8 @@ export default {
       chartData().then(res => {
         this.cityObj = [res.data.city, res.data.position]
         this.chartData = res.data
-        this.chartList = this.chartData.yearSalary.reverse().slice(0, 4)
+        this.chartData.yearSalary.reverse()
+        this.chartList = this.chartData.yearSalary.slice(0, 4)
       })
     },
     getMore () {
@@ -142,7 +143,7 @@ export default {
       if (this.isAll) {
         this.chartList = this.chartData.yearSalary
       } else {
-        this.chartList = this.chartData.yearSalary.reverse().slice(0, 4)
+        this.chartList = this.chartData.yearSalary.slice(0, 4)
       }
     }
   }
