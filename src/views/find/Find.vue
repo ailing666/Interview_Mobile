@@ -15,7 +15,7 @@
             v-for="item in interviewList"
             :key="item.id"
           >
-            <AlTechniqueItem :item="item"></AlTechniqueItem>
+            <AlItem :item="item"></AlItem>
           </div>
         </div>
         <!-- 市场数据 -->
@@ -96,11 +96,11 @@
 </template>
 
 <script>
-import AlTechniqueItem from '@/components/AlTechniqueItem'
+import AlItem from '@/components/AlItem'
 import { interviewTechnic, chartData, interviewShare } from '@/api/find.js'
 export default {
   name: 'Find',
-  components: { AlTechniqueItem },
+  components: { AlItem },
   data () {
     return {
       // 面试技巧
