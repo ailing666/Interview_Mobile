@@ -8,7 +8,7 @@
           <AlCell
             title="面试技巧"
             value="查看更多"
-            @click="$router.push('/shareList')"
+            @click="$router.push('/techniqueList?md=technique')"
           ></AlCell>
           <AlItem
             v-for="item in interviewList"
@@ -62,7 +62,11 @@
         </div>
         <!-- 面经分享 -->
         <div class="interview-share">
-          <AlCell title="面经分享" value="查看更多"></AlCell>
+          <AlCell
+            title="面经分享"
+            value="查看更多"
+            @click="$router.push('/techniqueList?md=share')"
+          ></AlCell>
           <AlItem
             class="share-content"
             v-for="item in shareList"
@@ -70,28 +74,6 @@
             :item="item"
             md="share"
           ></AlItem>
-          <!-- <h3 class="title">
-              {{ item.title }}
-            </h3>
-            <article class="article">
-              {{ item.content }}
-            </article>
-            <div class="buttom">
-              <div class="left">
-                <div class="avatar">
-                  <img :src="item.author.avatar" alt="" />
-                  <div class="nickname">{{ item.author.nickname }}</div>
-                </div>
-              </div>
-              <div class="time">{{ item.created_at | formatTime }}</div>
-              <div class="comment">
-                <i class="iconfont iconicon_pinglunliang"></i
-                >{{ item.article_comments }}
-              </div>
-              <div class="star">
-                <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
-              </div>
-            </div> -->
         </div>
       </van-pull-refresh>
       <div class="bottom">到底了</div>
@@ -135,6 +117,7 @@ export default {
           this.$avatar(item, 'cover')
         })
         this.interviewList = res.data.list
+        window.console.log('interviewList', this.interviewList)
       })
       // 获取市场数据
       chartData().then(res => {
@@ -146,8 +129,11 @@ export default {
       interviewShare().then(res => {
         res.data.list.forEach(item => {
           this.$avatar(item.author, 'avatar')
+          this.$avatar(item, 'cover')
         })
+
         this.shareList = res.data.list
+        window.console.log('shareList', this.shareList)
       })
     },
     // 查看更多

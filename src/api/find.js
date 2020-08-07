@@ -13,6 +13,7 @@ export function interviewTechnic (params) {
     params
   })
 }
+
 /**
  * 市场数据
  * 参数  无
@@ -29,9 +30,10 @@ export function chartData () {
  * limit,个数,5
  * q,搜索关键字,无
  */
-export function interviewShare () {
+export function interviewShare (params) {
   return request({
     url: '/articles/share',
-    needToken: true
+    needToken: true,
+    params
   })
 }

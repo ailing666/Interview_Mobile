@@ -1,5 +1,5 @@
 <template>
-  <div class="al-technique-item">
+  <div class="al-item">
     <div class="item-content">
       <!-- 标题和内容 -->
       <div class="left">
@@ -34,8 +34,8 @@
           </div>
         </div>
       </div>
-      <div class="cover">
-        <img v-if="md === 'technique' && item.cover" :src="item.cover" alt="" />
+      <div class="cover" v-if="md === 'technique'">
+        <img :src="item.cover" />
       </div>
     </div>
     <van-divider class="line" v-if="md === 'share'"></van-divider>
@@ -44,7 +44,7 @@
 
 <script>
 export default {
-  name: 'AlTechniqueItem',
+  name: 'AlItem',
   props: {
     md: {
       type: String
@@ -52,12 +52,20 @@ export default {
     item: {
       type: Object
     }
+  },
+  data () {
+    return {
+      isShow: false
+    }
+  },
+  created () {
+    window.console.log(this.$route)
   }
 }
 </script>
 
 <style lang="less">
-.al-technique-item {
+.al-item {
   .item-content {
     display: flex;
     padding: 15px;
@@ -128,10 +136,8 @@ export default {
       }
     }
   }
-  .line {
-    .van-divider {
-      margin: 0;
-    }
+  .line.van-divider.van-divider--hairline {
+    margin: 0;
   }
 }
 </style>
