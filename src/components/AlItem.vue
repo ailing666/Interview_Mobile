@@ -1,5 +1,5 @@
 <template>
-  <div class="al-technique-item">
+  <div class="al-item">
     <div class="left">
       <h3 class="header">
         {{ item.title }}
@@ -22,20 +22,20 @@
 
 <script>
 export default {
-  name: 'AlTechniqueItem',
+  name: 'AlItem',
   props: {
+    md: {
+      type: String
+    },
     item: {
       type: Object
     }
-  },
-  created () {
-    window.console.log(this.item)
   }
 }
 </script>
 
 <style lang="less">
-.al-technique-item {
+.al-item {
   display: flex;
   padding: 15px;
   background-color: @white-color;

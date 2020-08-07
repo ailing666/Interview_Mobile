@@ -10,13 +10,13 @@
             value="查看更多"
             @click="$router.push('/shareList')"
           ></AlCell>
-          <div
+          <AlItem
             class="technique-content"
             v-for="item in interviewList"
             :key="item.id"
-          >
-            <AlItem :item="item"></AlItem>
-          </div>
+            :item="item"
+            md="technique"
+          ></AlItem>
         </div>
         <!-- 市场数据 -->
         <div class="chart-data">
@@ -64,8 +64,14 @@
         <!-- 面经分享 -->
         <div class="interview-share">
           <AlCell title="面经分享" value="查看更多"></AlCell>
-          <div class="share-content" v-for="item in shareList" :key="item.id">
-            <h3 class="title">
+          <AlItem
+            class="share-content"
+            v-for="item in shareList"
+            :key="item.id"
+            :item="item"
+            md="technique"
+          ></AlItem>
+          <!-- <h3 class="title">
               {{ item.title }}
             </h3>
             <article class="article">
@@ -86,8 +92,7 @@
               <div class="star">
                 <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
               </div>
-            </div>
-          </div>
+            </div> -->
         </div>
       </van-pull-refresh>
       <div class="bottom">到底了</div>
