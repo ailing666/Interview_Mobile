@@ -23,7 +23,11 @@
 <script>
 export default {
   name: 'AlTechniqueItem',
-  props: ['item'],
+  props: {
+    item: {
+      type: Object
+    }
+  },
   created () {
     window.console.log(this.item)
   }
