@@ -37,10 +37,10 @@ export default {
       type: Boolean,
       default: true
     }
-
   },
   methods: {
     onClickLeft () {
+      this.$router.go(-1)
       this.$emit('onClickLeft')
     },
     onClickRight () {

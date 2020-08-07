@@ -20,7 +20,8 @@
           v-for="item in technicList"
           :key="item.id"
           :item="item"
-        ></AlTechniqueItem>
+        >
+        </AlTechniqueItem>
       </van-list>
     </div>
   </div>
@@ -43,7 +44,7 @@ export default {
     onLoad () {
       interviewTechnic({ start: this.start, limit: this.limit }).then(res => {
         res.data.list.forEach(item => {
-          this.$avatar(item)
+          this.$avatar(item, 'cover')
         })
         this.technicList.push(...res.data.list)
         this.start += this.limit

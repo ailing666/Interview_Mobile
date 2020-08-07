@@ -128,7 +128,7 @@ export default {
       // 获取面试技巧
       interviewTechnic().then(res => {
         res.data.list.forEach(item => {
-          item.cover && (item.cover = process.env.VUE_APP_URL + item.cover)
+          this.$avatar(item, 'cover')
         })
         this.interviewList = res.data.list
       })
@@ -141,7 +141,7 @@ export default {
       })
       interviewShare().then(res => {
         res.data.list.forEach(item => {
-          this.$avatar(item.author)
+          this.$avatar(item.author, 'avatar')
         })
         this.shareList = res.data.list
       })

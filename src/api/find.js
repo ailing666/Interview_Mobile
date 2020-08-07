@@ -6,10 +6,11 @@ import request from '@/utils/request.js'
  * limit,个数,5
  * q,搜索关键字,无
  */
-export function interviewTechnic () {
+export function interviewTechnic (params) {
   return request({
     url: '/articles/technic',
-    needToken: true
+    needToken: true,
+    params
   })
 }
 /**
