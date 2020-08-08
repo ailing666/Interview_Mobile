@@ -8,10 +8,9 @@
           <AlCell
             title="面试技巧"
             value="查看更多"
-            @click="$router.push('/shareList')"
+            @click="$router.push('/techniqueList?md=technique')"
           ></AlCell>
           <AlItem
-            class="technique-content"
             v-for="item in interviewList"
             :key="item.id"
             :item="item"
@@ -63,36 +62,18 @@
         </div>
         <!-- 面经分享 -->
         <div class="interview-share">
-          <AlCell title="面经分享" value="查看更多"></AlCell>
+          <AlCell
+            title="面经分享"
+            value="查看更多"
+            @click="$router.push('/techniqueList?md=share')"
+          ></AlCell>
           <AlItem
             class="share-content"
             v-for="item in shareList"
             :key="item.id"
             :item="item"
-            md="technique"
+            md="share"
           ></AlItem>
-          <!-- <h3 class="title">
-              {{ item.title }}
-            </h3>
-            <article class="article">
-              {{ item.content }}
-            </article>
-            <div class="buttom">
-              <div class="left">
-                <div class="avatar">
-                  <img :src="item.author.avatar" alt="" />
-                  <div class="nickname">{{ item.author.nickname }}</div>
-                </div>
-              </div>
-              <div class="time">{{ item.created_at | formatTime }}</div>
-              <div class="comment">
-                <i class="iconfont iconicon_pinglunliang"></i
-                >{{ item.article_comments }}
-              </div>
-              <div class="star">
-                <i class="iconfont iconicon_dianzanliang"></i>{{ item.star }}
-              </div>
-            </div> -->
         </div>
       </van-pull-refresh>
       <div class="bottom">到底了</div>
@@ -136,6 +117,7 @@ export default {
           this.$avatar(item, 'cover')
         })
         this.interviewList = res.data.list
+        window.console.log('interviewList', this.interviewList)
       })
       // 获取市场数据
       chartData().then(res => {
@@ -147,8 +129,11 @@ export default {
       interviewShare().then(res => {
         res.data.list.forEach(item => {
           this.$avatar(item.author, 'avatar')
+          this.$avatar(item, 'cover')
         })
+
         this.shareList = res.data.list
+        window.console.log('shareList', this.shareList)
       })
     },
     // 查看更多
@@ -188,11 +173,6 @@ export default {
     }
     // 面试技巧
     .interview-technique {
-      .technique-content {
-        display: flex;
-        padding: 15px;
-        background-color: @white-color;
-      }
     }
     // 市场数据
     .chart-data {
@@ -201,7 +181,7 @@ export default {
         background-color: @white-color;
         .tags {
           display: flex;
-          margin-bottom: 10px;
+          margin-bottom: 15px;
           .tag {
             height: 24px;
             margin-left: 8px;
@@ -260,56 +240,6 @@ export default {
     }
     // 面经分享
     .interview-share {
-      .share-content {
-        padding: 15px;
-        background-color: @white-color;
-        .title {
-          font-size: 16px;
-          font-weight: 700;
-          color: @main-font-color;
-        }
-        .article {
-          margin: 10px 0;
-          width: 345px;
-          font-size: 13px;
-          color: @subdominant-font-color;
-          line-height: 19px;
-          letter-spacing: 0px;
-          overflow: hidden;
-          text-overflow: ellipsis;
-          display: -webkit-box;
-          -webkit-line-clamp: 2;
-          -webkit-box-orient: vertical;
-        }
-        .buttom {
-          display: flex;
-          font-size: 12px;
-          color: @minor-font-color;
-          .left {
-            flex: 1;
-            .avatar {
-              display: flex;
-              align-items: center;
-              img {
-                width: 22px;
-                height: 22px;
-                margin-right: 8px;
-                border-radius: 50%;
-              }
-              .nickname {
-                color: @subdominant-font-color;
-              }
-            }
-          }
-          // .time {
-          // }
-          .comment {
-            margin: 0 10px;
-          }
-          // .star {
-          // }
-        }
-      }
     }
     .bottom {
       height: 100px;

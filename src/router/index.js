@@ -8,7 +8,8 @@ import My from '@/views/my/My.vue'
 import Login from '@/views/login/Login.vue'
 import UserInfo from '@/views/userInfo/UserInfo.vue'
 import EditUserInfo from '@/views/editUserInfo/EditUserInfo.vue'
-import ShareList from '@/views/shareList/ShareList.vue'
+// import ShareList from '@/views/shareList/ShareList.vue'
+import TechniqueList from '@/views/techniqueList/TechniqueList.vue'
 // 导入store
 import store from '@/store/index.js'
 import { Toast } from 'vant'
@@ -88,8 +89,8 @@ const router = new VueRouter({
       }
     },
     {
-      path: '/shareList',
-      component: ShareList
+      path: '/techniqueList',
+      component: TechniqueList
     }
   ]
 })
